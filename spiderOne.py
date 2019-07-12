@@ -31,7 +31,8 @@ def get_pic(link, text):
     '''
     html=download_page(link) #下载界面
     soup=BeautifulSoup(html,'html.parser')
-    pic_list=soup.find('div',id="picture").find_all('img') #找到界面所有图片
+    #pic_list=soup.find('div',id="picture").find_all('img') #找到界面所有图片
+    pic_list=soup.find('div',class_="thumb").find_all('img')
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"}
     create_dir('pic/{}'.format(text))
     for i in pic_list:
@@ -49,9 +50,9 @@ def get_pic_list(html):
     :return:
     '''
     soup=BeautifulSoup(html,'html.parser')
-    pic_list=soup.find_all('li',class_='wp-item')
+    pic_list=soup.find_all('div',class_='thumb')
     for i in pic_list:
-        a_tag=i.find('h3',class_='tit').find('a')
+        a_tag=i.find('h3',class_='thumb').find('img')
         link=a_tag.get('href')
         text=a_tag.get_text();
         get_pic(link,text)
